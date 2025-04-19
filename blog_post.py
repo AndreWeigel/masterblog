@@ -3,47 +3,100 @@ import os
 
 BLOG_POSTS_FILE = "blog_posts.json"
 
-class BlogPost():
-    def __init__(self, author, title, content):
+class BlogPost:
+    def __init__(self, author, title, content, _id=None):
         self.author = author
         self.title = title
         self.content = content
-        self._id = None
+        self._id = _id
 
-    def save(self):
-        blog_posts = []
-        if os.path.exists(BLOG_POSTS_FILE):
-            with open(BLOG_POSTS_FILE, "r") as file:
-                try:
-                    blog_posts = json.load(file)
-                except json.JSONDecodeError:
-                    blog_posts = []
-            if blog_posts:
-                last_id = max(post['id'] for post in blog_posts)
-                self._id = last_id + 1
-            else:
-                self._id = 1
-        else:
-            self._id = 1
-
-        post = {
+    def to_dict(self):
+        return {
             'id': self._id,
             'title': self.title,
             'content': self.content,
             'author': self.author
+        }
 
-            }
-        blog_posts.append(post)
-
-        with open(BLOG_POSTS_FILE, "w") as file:
-            json.dump(blog_posts, file)
+    @classmethod
+    def from_dict(cls, data):
+        return cls(
+            author=data.get('author'),
+            title=data.get('title'),
+            content=data.get('content'),
+            _id=data.get('id')
+        )
 
     def __str__(self):
-        return f"""{self.title} by {self.author}:\n{self.content}
-                """
+        return f"{self.title} by {self.author}:\n{self.content}\n"
 
+class BlogManager:
+    def __init__(self, filename=BLOG_POSTS_FILE):
+        self.filename = filename
+
+    def _load_posts(self):
+        if os.path.exists(self.filename):
+            with open(self.filename, 'r') as f:
+                try:
+                    return json.load(f)
+                except json.JSONDecodeError:
+                    return []
+        return []
+
+    def _save_posts(self, posts):
+        with open(self.filename, 'w') as f:
+            json.dump(posts, f)
+
+    def add_post(self, new_post):
+        posts = self._load_posts()
+        new_post._id = max((post['id'] for post in posts), default=0) + 1
+        posts.append(new_post.to_dict())
+        self._save_posts(posts)
+        print("Post added successfully")
+
+    def get_all_posts(self):
+        return [BlogPost.from_dict(post) for post in self._load_posts()]
+
+    def get_post(self, _id):
+        posts = self._load_posts()
+        for post in posts:
+            if post['id'] == _id:
+                return BlogPost.from_dict(post)
+        print("Post not found")
+
+    def update_post(self, _id, updated_data):
+        posts = self._load_posts()
+        for i, post in enumerate(posts):
+            if post['id'] == _id:
+                posts[i].update(updated_data) #updates only stuff in updated_data
+                self._save_posts(posts)
+                print("Post updated successfully")
+                return True
+        print("Post not found")
+        return False
+
+    def delete_post(self, _id):
+        posts = self._load_posts()
+        for i, post in enumerate(posts):
+            if post['id'] == _id:
+                del posts[i]
+                self._save_posts(posts)
+                print("Post deleted successfully")
+                return True
+        print("Post not found")
+        return False
+
+    def __str__(self):
+        posts = self.get_all_posts()
+        return "\n".join(str(post) for post in posts)
+
+# Example usage
 if __name__ == "__main__":
+    blog = BlogManager()
     post = BlogPost("John", "Hello World", "This is my first blog post")
-    post.save()
-    print(post)
+    blog.add_post(post)
+    blog.update_post(2, {'title': 'new title', 'content': 'bla bla bla'})
+    blog.delete_post(3)
+    print(blog)
+
 
