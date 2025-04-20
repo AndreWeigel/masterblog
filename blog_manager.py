@@ -10,14 +10,6 @@ class BlogPost:
         self.content = content
         self._id = _id
 
-    def to_dict(self):
-        return {
-            'id': self._id,
-            'title': self.title,
-            'content': self.content,
-            'author': self.author
-        }
-
     @classmethod
     def from_dict(cls, data):
         return cls(
@@ -26,6 +18,14 @@ class BlogPost:
             content=data.get('content'),
             _id=data.get('id')
         )
+
+    def to_dict(self):
+        return {
+            'id': self._id,
+            'title': self.title,
+            'content': self.content,
+            'author': self.author
+        }
 
     def __str__(self):
         return f"{self.title} by {self.author}:\n{self.content}\n"
