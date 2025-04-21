@@ -1,12 +1,15 @@
+# Import necessary modules from Flask
 from flask import Flask, render_template, request, redirect, url_for
 
+# Import custom blog manager and post classes
 from blog_manager import BlogManager, BlogPost
 
-
+# Define the file to store blog posts
 BLOG_POSTS_FILE = "blog_posts.json"
 app = Flask(__name__)
 
 
+# Route for the homepage that displays all blog posts
 @app.route('/')
 def index():
     blog = BlogManager(BLOG_POSTS_FILE)
@@ -14,19 +17,26 @@ def index():
     blog_posts.reverse()
     return render_template('index.html', posts=blog_posts)
 
+
+# Route to add a new blog post
 @app.route('/add', methods=['GET', 'POST'])
 def add():
     if request.method == 'POST':
+        # Get form data
         title = request.form['title']
         author = request.form['author']
         content = request.form['content']
+
+        # Create a new blog post and add it
         blog = BlogManager(BLOG_POSTS_FILE)
         blog.add_post(BlogPost(author, title, content))
 
         return redirect(url_for('index'))
+    # Render the form for GET requests
     return render_template('add.html')
 
 
+# Route to delete a blog post by its ID
 @app.route('/delete/<int:post_id>', methods=['POST'])
 def delete(post_id):
     blog = BlogManager(BLOG_POSTS_FILE)
@@ -37,24 +47,35 @@ def delete(post_id):
         print("Post not found!")
     return redirect(url_for('index'))
 
+
+# Route to edit a blog post by its ID
 @app.route('/edit/<int:post_id>', methods=['GET', 'POST'])
 def edit(post_id):
     blog = BlogManager(BLOG_POSTS_FILE)
     post = blog.get_post(post_id)
     if post is None:
-        # Post not found
         return "Post not found", 404
 
     if request.method == 'POST':
+        # Get updated form data
         title = request.form['title']
         author = request.form['author']
         content = request.form['content']
 
-        blog.update_post(post_id, BlogPost(author, title, content, _id = post_id))
+        # Update the existing post{'title': new_title, 'content': new_content}
+        blog.update_post(post_id, {'author':author, 'title':title, 'content': content})
         print(f"Post with id {post_id} updated successfully!",)
 
         return redirect(url_for('index'))
+    # Render the form for GET requests
     return render_template('edit.html', post=post)
 
+@app.route('/like/<int:post_id>', methods=['POST'])
+def like(post_id):
+    blog = BlogManager(BLOG_POSTS_FILE)
+    blog.like_post(post_id)
+    return redirect(url_for('index'))
+
+# Run the Flask application
 if __name__ == '__main__':
     app.run()

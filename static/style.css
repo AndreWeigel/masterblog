@@ -18,9 +18,12 @@ nav {
 .post {
     background-color: #FFF;
     border: 1px solid #DDD;
-    padding: 20px;
+    padding: 30px;
     margin-bottom: 20px;
     border-radius: 8px;
+    flex-direction: column;
+    justify-content: space-between;
+
 }
 
 .post h2 {
@@ -29,4 +32,25 @@ nav {
 
 .post p {
     margin: 10px 0;
+}
+
+.form_button {
+    display: inline;
+    float: right;
+}
+
+.like_button {
+    display: inline;
+    float: left;
+}
+
+.button {
+    display: inline-block;
+    padding: 6px 12px;
+    background-color: #007BFF;
+    color: white;
+    text-decoration: none;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
 }
