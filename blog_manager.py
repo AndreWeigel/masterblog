@@ -66,7 +66,7 @@ class BlogManager():
     def update_post(self, _id, updated_data):
         posts = self._load_posts()
         for i, post in enumerate(posts):
-            if post['id'] == _id:
+            if post['id'] == int(_id):
                 posts[i].update(updated_data) #updates only stuff in updated_data
                 self._save_posts(posts)
                 print("Post updated successfully")
@@ -77,7 +77,7 @@ class BlogManager():
     def delete_post(self, _id):
         posts = self._load_posts()
         for i, post in enumerate(posts):
-            if post['id'] == _id:
+            if post['id'] == int(_id):
                 del posts[i]
                 self._save_posts(posts)
                 print("Post deleted successfully")

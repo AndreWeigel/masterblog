@@ -27,5 +27,15 @@ def add():
     return render_template('add.html')
 
 
+@app.route('/delete/<int:post_id>', methods=['POST'])
+def delete(post_id):
+    blog = BlogManager(BLOG_POSTS_FILE)
+    success = blog.delete_post(post_id)
+    if success:
+        print("Post deleted successfully!", "success")
+    else:
+        print("Post not found!")
+    return redirect(url_for('index'))
+
 if __name__ == '__main__':
     app.run()
