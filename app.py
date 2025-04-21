@@ -1,6 +1,6 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 
-from blog_manager import BlogManager
+from blog_manager import BlogManager, BlogPost
 
 app = Flask(__name__)
 
@@ -14,8 +14,13 @@ def index():
 @app.route('/add', methods=['GET', 'POST'])
 def add():
     if request.method == 'POST':
-        # We will fill this in the next step
-        pass
+        title = request.form['title']
+        author = request.form['author']
+        content = request.form['content']
+        blog = BlogManager()
+        blog.add_post(BlogPost(title, author, content))
+
+        return redirect(url_for('index'))
     return render_template('add.html')
 
 
