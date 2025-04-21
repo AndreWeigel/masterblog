@@ -37,5 +37,24 @@ def delete(post_id):
         print("Post not found!")
     return redirect(url_for('index'))
 
+@app.route('/edit/<int:post_id>', methods=['GET', 'POST'])
+def edit(post_id):
+    blog = BlogManager(BLOG_POSTS_FILE)
+    post = blog.get_post(post_id)
+    if post is None:
+        # Post not found
+        return "Post not found", 404
+
+    if request.method == 'POST':
+        title = request.form['title']
+        author = request.form['author']
+        content = request.form['content']
+
+        blog.update_post(post_id, BlogPost(author, title, content, _id = post_id))
+        print(f"Post with id {post_id} updated successfully!",)
+
+        return redirect(url_for('index'))
+    return render_template('edit.html', post=post)
+
 if __name__ == '__main__':
     app.run()

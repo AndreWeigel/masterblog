@@ -67,7 +67,7 @@ class BlogManager():
         posts = self._load_posts()
         for i, post in enumerate(posts):
             if post['id'] == int(_id):
-                posts[i].update(updated_data) #updates only stuff in updated_data
+                posts[i].update(updated_data.to_dict() if isinstance(updated_data, BlogPost) else updated_data)
                 self._save_posts(posts)
                 print("Post updated successfully")
                 return True
