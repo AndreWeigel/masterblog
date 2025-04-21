@@ -29,13 +29,13 @@ class BlogPost:
     def __str__(self):
         return f"{self.title} by {self.author}:\n{self.content}\n"
 
-class BlogManager(BLOG_POSTS_FILE):
-    def __init__(self, filename=BLOG_POSTS_FILE):
-        self.filename = filename
+class BlogManager():
+    def __init__(self, file_path):
+        self.file_path = file_path
 
     def _load_posts(self):
-        if os.path.exists(self.filename):
-            with open(self.filename, 'r') as f:
+        if os.path.exists(self.file_path):
+            with open(self.file_path, 'r') as f:
                 try:
                     return json.load(f)
                 except json.JSONDecodeError:
@@ -43,7 +43,7 @@ class BlogManager(BLOG_POSTS_FILE):
         return []
 
     def _save_posts(self, posts):
-        with open(self.filename, 'w') as f:
+        with open(self.file_path, 'w') as f:
             json.dump(posts, f)
 
     def add_post(self, new_post):
