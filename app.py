@@ -9,6 +9,7 @@ app = Flask(__name__)
 def index():
     blog = BlogManager()
     blog_posts = blog.get_all_posts()
+    blog_posts.reverse()
     return render_template('index.html', posts=blog_posts)
 
 @app.route('/add', methods=['GET', 'POST'])
