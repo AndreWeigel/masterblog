@@ -1,7 +1,6 @@
 import json
 import os
 
-BLOG_POSTS_FILE = "blog_posts.json"
 
 class BlogPost:
     def __init__(self, author, title, content, _id=None):
@@ -30,7 +29,7 @@ class BlogPost:
     def __str__(self):
         return f"{self.title} by {self.author}:\n{self.content}\n"
 
-class BlogManager:
+class BlogManager(BLOG_POSTS_FILE):
     def __init__(self, filename=BLOG_POSTS_FILE):
         self.filename = filename
 
