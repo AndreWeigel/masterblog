@@ -74,7 +74,8 @@ def edit(post_id):
 def like(post_id):
     blog = BlogManager(BLOG_POSTS_FILE)
     blog.like_post(post_id)
-    return redirect(url_for('index'))
+    # Likes the post, reloads the page and returns to the same post
+    return redirect(url_for('index') + f"#post-{post_id}")
 
 # Run the Flask application
 if __name__ == '__main__':

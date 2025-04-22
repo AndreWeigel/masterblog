@@ -3,22 +3,27 @@
 {% block content %}
     <h2>Blog Posts</h2>
     {% for post in posts %}
-        <div class="post">
+        <div class="post" id="post-{{ post._id }}">
             <h2>{{ post.title }}</h2>
             <p><strong>By:</strong> {{ post.author }}</p>
             <div>{{ post.content }}</div>
             <br>
-            <form action="{{ url_for('like', post_id=post._id) }}" method="POST" class="like_button">
-                <button type="submit">{{ post.likes }}👍</button>
-            </form>
-            <form action="{{ url_for('delete', post_id=post._id) }}" method="POST" class="form_button">
-                <button type="submit" onclick="return confirm('Are you sure?');">Delete</button>
-            </form>
-            <form action="{{ url_for('edit', post_id=post._id) }}" method="GET" class="form_button">
-                <button type="submit">Edit</button>
-            </form>
+            <div class="post-actions">
+                <div class="left-actions">
+                    <form action="{{ url_for('like', post_id=post._id) }}" method="POST">
+                        <button type="submit" class="button like">{{ post.likes }} 👍</button>
+                    </form>
+                </div>
 
-
+                <div class="right-actions">
+                    <form action="{{ url_for('edit', post_id=post._id) }}" method="GET">
+                        <button type="submit" class="button edit">Edit</button>
+                    </form>
+                    <form action="{{ url_for('delete', post_id=post._id) }}" method="POST" onsubmit="return confirm('Are you sure?');">
+                        <button type="submit" class="button delete">Delete</button>
+                    </form>
+                </div>
+            </div>
 
 
         </div>
