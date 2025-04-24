@@ -4,7 +4,7 @@
 
     <h2>Edit the Blog Post "{{ post.title }}"</h2>
 
-    <form action="{{ url_for('edit', post_id=post._id) }}" method="POST">
+    <form action="{{ url_for('edit', post_id=post.id) }}" method="POST">
         <label for="title">Title:</label><br>
         <input type="text" id="title" name="title" value="{{ post.title }}" required><br><br>
 
