@@ -1,5 +1,5 @@
 # Import necessary modules from Flask
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash
 
 # Import custom blog manager and post classes
 from blog_manager import BlogManager, BlogPost
@@ -7,6 +7,7 @@ from blog_manager import BlogManager, BlogPost
 # Define the file to store blog posts
 BLOG_POSTS_FILE = "blog_posts.json"
 app = Flask(__name__)
+app.secret_key = "masterblog"
 
 
 # Route for the homepage that displays all blog posts
@@ -29,7 +30,10 @@ def add():
 
         # Create a new blog post and add it
         blog = BlogManager(BLOG_POSTS_FILE)
-        blog.add_post(BlogPost(author, title, content))
+        if blog.add_post(BlogPost(author, title, content)):
+            flash('Post successfully added!')
+        else:
+            flash('Error adding post. Please try again.')
 
         return redirect(url_for('index'))
     # Render the form for GET requests
@@ -42,9 +46,9 @@ def delete(post_id):
     blog = BlogManager(BLOG_POSTS_FILE)
     success = blog.delete_post(post_id)
     if success:
-        print("Post deleted successfully!", "success")
+        flash('Post successfully deleted!')
     else:
-        print("Post not found!")
+        flash("Post not found!")
     return redirect(url_for('index'))
 
 
@@ -63,8 +67,10 @@ def edit(post_id):
         content = request.form['content']
 
         # Update the existing post{'title': new_title, 'content': new_content}
-        blog.update_post(post_id, {'author':author, 'title':title, 'content': content})
-        print(f"Post with id {post_id} updated successfully!",)
+        if blog.update_post(post_id, {'author':author, 'title':title, 'content': content}):
+            flash(f"Post with id {post_id} updated successfully!")
+        else:
+            flash("Error updating post. Please try again.")
 
         return redirect(url_for('index'))
     # Render the form for GET requests
@@ -73,7 +79,10 @@ def edit(post_id):
 @app.route('/like/<int:post_id>', methods=['POST'])
 def like(post_id):
     blog = BlogManager(BLOG_POSTS_FILE)
-    blog.like_post(post_id)
+    if blog.like_post(post_id):
+        pass
+    else:
+        flash("Error liking post. Please try again.")
     # Likes the post, reloads the page and returns to the same post
     return redirect(url_for('index') + f"#post-{post_id}")
 
