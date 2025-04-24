@@ -4,11 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c30d9b34-1f3f-4796-9778-fe224d53f4a1" name="Changes" comment="added comments and like button">
+    <list default="true" id="c30d9b34-1f3f-4796-9778-fe224d53f4a1" name="Changes" comment="Added flash messages to app.py">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/blog_manager.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog_posts.json" beforeDir="false" afterPath="$PROJECT_DIR$/blog_posts.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -118,7 +117,9 @@
       <updated>1744989297665</updated>
       <workItem from="1744989298732" duration="17814000" />
       <workItem from="1745253029951" duration="4893000" />
-      <workItem from="1745258197148" duration="16947000" />
+      <workItem from="1745258197148" duration="19699000" />
+      <workItem from="1745360779285" duration="4333000" />
+      <workItem from="1745499122447" duration="2182000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit!">
       <option name="closed" value="true" />
@@ -224,7 +225,31 @@
       <option name="project" value="LOCAL" />
       <updated>1745269899079</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="added a cuter pastel style to it&#10;Added return to same post after liking">
+      <option name="closed" value="true" />
+      <created>1745322279996</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1745322279996</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Added flash messages to app.py">
+      <option name="closed" value="true" />
+      <created>1745507704204</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1745507704204</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Added flash messages to app.py">
+      <option name="closed" value="true" />
+      <created>1745507709904</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1745507709904</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -244,11 +269,13 @@
     <MESSAGE value="added delete function" />
     <MESSAGE value="added edit function" />
     <MESSAGE value="added comments and like button" />
-    <option name="LAST_COMMIT_MESSAGE" value="added comments and like button" />
+    <MESSAGE value="added a cuter pastel style to it&#10;Added return to same post after liking" />
+    <MESSAGE value="Added flash messages to app.py" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added flash messages to app.py" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/masterblog$Flask__app_py_.coverage" NAME="Flask (app.py) Coverage Results" MODIFIED="1745252799498" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
-    <SUITE FILE_PATH="coverage/masterblog$masterblog.coverage" NAME="masterblog Coverage Results" MODIFIED="1745322018010" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/masterblog$masterblog.coverage" NAME="masterblog Coverage Results" MODIFIED="1745507114919" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/masterblog$blog_post.coverage" NAME="blog_post Coverage Results" MODIFIED="1745067223897" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

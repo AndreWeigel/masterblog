@@ -4,11 +4,11 @@ import os
 
 class BlogPost:
     """Represents a blog post"""
-    def __init__(self, author, title, content, _id=None, likes=0):
+    def __init__(self, author, title, content, id=None, likes=0):
         self.author = author
         self.title = title
         self.content = content
-        self._id = _id
+        self.id = id
         self.likes = likes
 
     @classmethod
@@ -18,14 +18,14 @@ class BlogPost:
             author=data.get('author'),
             title=data.get('title'),
             content=data.get('content'),
-            _id=data.get('id'),
+            id=data.get('id'),
             likes = data.get('likes')
         )
 
     def to_dict(self):
         """Convert the BlogPost instance to a dictionary"""
         return {
-            'id': self._id,
+            'id': self.id,
             'title': self.title,
             'content': self.content,
             'author': self.author,
@@ -58,29 +58,34 @@ class BlogManager():
 
     def add_post(self, new_post):
         """Add a new post to the blog"""
-        posts = self._load_posts()
-        new_post._id = max((post['id'] for post in posts), default=0) + 1
-        posts.append(new_post.to_dict())
-        self._save_posts(posts)
-        print("Post added successfully")
+        try:
+            posts = self._load_posts()
+            new_post.id = max((post['id'] for post in posts), default=0) + 1
+            posts.append(new_post.to_dict())
+            self._save_posts(posts)
+            print("Post added successfully")
+            return True
+        except Exception as e:
+            print(f"Error adding post: {e}")
+            return False
 
     def get_all_posts(self):
         """Get all posts from the blog"""
         return [BlogPost.from_dict(post) for post in self._load_posts()]
 
-    def get_post(self, _id):
+    def get_post(self, id):
         """Get a post by ID"""
         posts = self._load_posts()
         for post in posts:
-            if post['id'] == _id:
+            if post['id'] == id:
                 return BlogPost.from_dict(post)
         print("Post not found")
 
-    def update_post(self, _id, updated_data):
+    def update_post(self, id, updated_data):
         """Update a post by ID"""
         posts = self._load_posts()
         for i, post in enumerate(posts):
-            if post['id'] == int(_id):
+            if post['id'] == int(id):
                 posts[i].update(updated_data.to_dict() if isinstance(updated_data, BlogPost) else updated_data)
                 self._save_posts(posts)
                 print("Post updated successfully")
@@ -88,11 +93,11 @@ class BlogManager():
         print("Post not found")
         return False
 
-    def delete_post(self, _id):
+    def delete_post(self, id):
         """Delete a post by ID"""
         posts = self._load_posts()
         for i, post in enumerate(posts):
-            if post['id'] == int(_id):
+            if post['id'] == int(id):
                 del posts[i]
                 self._save_posts(posts)
                 print("Post deleted successfully")
@@ -100,11 +105,11 @@ class BlogManager():
         print("Post not found")
         return False
 
-    def like_post(self, _id):
+    def like_post(self, id):
         """Increment the like count of a post by ID"""
         posts = self._load_posts()
         for post in posts:
-            if post['id'] == int(_id):
+            if post['id'] == int(id):
                 post['likes'] = post['likes'] + 1
                 self._save_posts(posts)
                 print("Post liked successfully")
