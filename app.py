@@ -12,6 +12,19 @@ app.secret_key = "masterblog"
 # Create instance of blog_manager at module level
 blog = BlogManager(BLOG_POSTS_FILE)
 # Route for the homepage that displays all blog posts
+
+
+def validate_post_form(title, author, content):
+    errors = []
+    if not title:
+        errors.append("Title is required.")
+    if not author:
+        errors.append("Author is required.")
+    if not content:
+        errors.append("Content is required.")
+    return errors
+
+
 @app.route('/')
 def index():
     blog_posts = blog.get_all_posts()
@@ -24,10 +37,16 @@ def index():
 def add():
     if request.method == 'POST':
         # Get form data
-        title = request.form['title']
-        author = request.form['author']
-        content = request.form['content']
+        title = request.form.get('title', '').strip()
+        author = request.form.get('author', '').strip()
+        content = request.form.get('content', '').strip()
 
+        errors = validate_post_form(title, author, content)
+
+        if errors:
+            for error in errors:
+                flash(error)
+            return redirect(url_for('add'))
         # Create a new blog post and add it
         if blog.add_post(BlogPost(author, title, content)):
             flash('Post successfully added!')
@@ -59,9 +78,16 @@ def edit(post_id):
 
     if request.method == 'POST':
         # Get updated form data
-        title = request.form['title']
-        author = request.form['author']
-        content = request.form['content']
+        title = request.form.get('title', '').strip()
+        author = request.form.get('author', '').strip()
+        content = request.form.get('content', '').strip()
+
+        errors = validate_post_form(title, author, content)
+
+        if errors:
+            for error in errors:
+                flash(error)
+            return redirect(url_for('edit', post_id=post_id))
 
         # Update the existing post{'title': new_title, 'content': new_content}
         if blog.update_post(post_id, {'author':author, 'title':title, 'content': content}):
