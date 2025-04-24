@@ -9,11 +9,11 @@ BLOG_POSTS_FILE = "blog_posts.json"
 app = Flask(__name__)
 app.secret_key = "masterblog"
 
-
+# Create instance of blog_manager at module level
+blog = BlogManager(BLOG_POSTS_FILE)
 # Route for the homepage that displays all blog posts
 @app.route('/')
 def index():
-    blog = BlogManager(BLOG_POSTS_FILE)
     blog_posts = blog.get_all_posts()
     blog_posts.reverse()
     return render_template('index.html', posts=blog_posts)
@@ -29,7 +29,6 @@ def add():
         content = request.form['content']
 
         # Create a new blog post and add it
-        blog = BlogManager(BLOG_POSTS_FILE)
         if blog.add_post(BlogPost(author, title, content)):
             flash('Post successfully added!')
         else:
@@ -43,7 +42,6 @@ def add():
 # Route to delete a blog post by its ID
 @app.route('/delete/<int:post_id>', methods=['POST'])
 def delete(post_id):
-    blog = BlogManager(BLOG_POSTS_FILE)
     success = blog.delete_post(post_id)
     if success:
         flash('Post successfully deleted!')
@@ -55,7 +53,6 @@ def delete(post_id):
 # Route to edit a blog post by its ID
 @app.route('/edit/<int:post_id>', methods=['GET', 'POST'])
 def edit(post_id):
-    blog = BlogManager(BLOG_POSTS_FILE)
     post = blog.get_post(post_id)
     if post is None:
         return "Post not found", 404
@@ -78,7 +75,6 @@ def edit(post_id):
 
 @app.route('/like/<int:post_id>', methods=['POST'])
 def like(post_id):
-    blog = BlogManager(BLOG_POSTS_FILE)
     if blog.like_post(post_id):
         pass
     else:
